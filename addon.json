@@ -1,0 +1,11 @@
+{
+	"title": "[jjba] Killer Queen SWEP",
+	"type":	"weapon",
+	"tags":	["roleplay", "fun"],
+	"ignore": [
+		"*.jpg",
+		"*.gma",
+		"*.json",
+		"*.bat"
+	]
+}

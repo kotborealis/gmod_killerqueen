@@ -1,0 +1,1 @@
+D:/SteamLibrary/SteamApps/common/GarrysMod/bin/gmad.exe create -folder "C:/projects/gmod_killerqueen/" -out "C:/projects/gmod_killerqueen/addon.gma"

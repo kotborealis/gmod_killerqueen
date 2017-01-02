@@ -1,0 +1,1 @@
+D:/SteamLibrary/SteamApps/common/GarrysMod/bin/gmpublish.exe update -addon "C:/projects/gmod_killerqueen/addon.gma" -id "832937251" -icon "icon.jpg"
