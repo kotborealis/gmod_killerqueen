@@ -36,6 +36,10 @@ SWEP.Delay = 10
 
 bomb = {};
 
+function SWEP:Initialize()
+	self.__killerqueen = 57005
+end
+
 function SWEP:Deploy()
 	return true
 end
@@ -66,15 +70,35 @@ function SWEP:PrimaryAttack()
 				self.Owner:EmitSound("click.mp3")
 
 				local pos = bomb[self.Owner]:GetPos()
-				bomb[self.Owner] = nil
 
 				local explode = ents.Create("env_explosion")
 				explode:SetPos(pos)
 				explode:SetOwner(self.Owner)
 				explode:Spawn()
 				explode:SetKeyValue("iMagnitude", "100")
-				explode:Fire("Explode", 0, 0)
+
+				timer.Simple(0.75, function() 
+					if bomb[self.Owner]:IsNPC() then
+						bomb[self.Owner]:TakeDamage(self.__killerqueen, self.Owner, self) 
+					else
+						timer.Simple(0.01, function()
+							if bomb[self.Owner]:IsValid() then
+								bomb[self.Owner]:Remove()
+							end
+							bomb[self.Owner] = nil
+						end)
+					end
+					explode:Fire("Explode", 0, 0) 
+				end)
 			end
 		end
 	end
+end
+
+if SERVER then
+	hook.Add("EntityTakeDamage", "PRIMARYBOMBKILLERQUEEN", function(entity, dmg)
+		if dmg:GetInflictor().__killerqueen then
+			dmg:SetDamageType(DMG_DISSOLVE)
+		end
+	end)
 end
