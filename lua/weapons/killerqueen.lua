@@ -4,23 +4,23 @@ print "======================"
 print "[lc] Killer Queen SWEP"
 print "======================"
 
-swep_kq_charge_radius = CreateConVar("swep_kq_charge_radius", 200, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_charge_radius = CreateConVar("swep_kq_charge_radius", 200, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "Radius in which you can charge entity as bomb")
-swep_kq_trigger_radius = CreateConVar("swep_kq_trigger_radius", 100, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_trigger_radius = CreateConVar("swep_kq_trigger_radius", 100, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "Radius in which charged object will trigger player/npc detonation")
-swep_kq_explosion_radius = CreateConVar("swep_kq_explosion_radius", 10, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_explosion_radius = CreateConVar("swep_kq_explosion_radius", 10, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Explosion radius")
-swep_kq_delay = CreateConVar("swep_kq_delay", 0.75, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_delay = CreateConVar("swep_kq_delay", 0.75, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Delay between trigger (*click* sound) and explosion")
 
-swep_kq_target_owner = CreateConVar("swep_kq_target_owner", 0, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_target_owner = CreateConVar("swep_kq_target_owner", 0, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable bomb to detonate it's owner")
 
-swep_kq_sound_deploy = CreateConVar("swep_kq_sound_deploy", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_sound_deploy = CreateConVar("swep_kq_sound_deploy", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable `Killer Queen` sound on deploy")
-swep_kq_sound_charge = CreateConVar("swep_kq_sound_charge", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_sound_charge = CreateConVar("swep_kq_sound_charge", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable `Ichi no bakudan` sound on charge")
-swep_kq_sound_trigger = CreateConVar("swep_kq_sound_trigger", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+local swep_kq_sound_trigger = CreateConVar("swep_kq_sound_trigger", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable *click* sound on trigger")
 
 SWEP.PrintName = "Killer Queen";
