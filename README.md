@@ -8,6 +8,12 @@ Then, left click anywhere to activate the bomb.
 If there's any NPCs or Players within a small radius around the bomb, they will be affected by bomb.
 If there's no NPCs or Players around, bomb will affect only charged entity.
 
+Convars:
+* swep_kq_charge_radius - Radius in which you can charge entity as bomb (Default: 200)
+* swep_kq_trigger_radius - Radius in which charged object will trigger player/npc detonation (Default: 100)
+* swep_kq_explosion_radius - Explosion radius (Default: 10)
+* swep_kq_delay - Delay between trigger (*click* sound) and explosion (Default: 0.75)
+
 TODO:
 * Sheer Heart Attack 
 * Bites the Dust
