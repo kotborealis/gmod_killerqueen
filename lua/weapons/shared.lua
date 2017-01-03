@@ -4,6 +4,11 @@ print "======================"
 print "[lc] Killer Queen SWEP"
 print "======================"
 
+KQ_set_radius = 200
+KQ_trigger_radius = 100
+KQ_explosion_radius = "10"
+KQ_delay = 0.75
+
 SWEP.PrintName = "Killer Queen";
 SWEP.Author = "Barreses"
 SWEP.Purpose = "KILLER QUEEN"
@@ -56,7 +61,7 @@ function SWEP:PrimaryAttack()
 		local entity = self.Owner:GetEyeTrace().Entity
 		if entity and entity:IsValid() then
 			local distance = self.Owner:GetPos():Distance(entity:GetPos())
-			if distance <= 200 then
+			if distance <= KQ_set_radius then
 				if SERVER then self.Owner:ChatPrint("Killer Queen: Primary Bomb") end
 				bomb[self.Owner] = entity
 			end
@@ -70,24 +75,40 @@ function SWEP:PrimaryAttack()
 				self.Owner:EmitSound("click.mp3")
 
 				local pos = bomb[self.Owner]:GetPos()
+				local target = bomb[self.Owner];
+				local target_dissolve = bomb[self.Owner]:IsNPC() or bomb[self.Owner]:IsPlayer();
+
+				bomb[self.Owner] = nil;
+
+				if not target_dissolve then
+					for key, entity in pairs(ents.FindInSphere(pos, KQ_trigger_radius)) do
+						local _ = entity:IsNPC() or entity:IsPlayer()
+						if _ then
+							pos = entity:GetPos()
+							target = entity
+							target_dissolve = true
+							break
+						end
+					end
+				end
 
 				local explode = ents.Create("env_explosion")
 				explode:SetPos(pos)
 				explode:SetOwner(self.Owner)
 				explode:Spawn()
-				explode:SetKeyValue("iMagnitude", "100")
+				explode:SetKeyValue("iMagnitude", KQ_explosion_radius)
 
-				timer.Simple(0.75, function() 
-					if bomb[self.Owner]:IsNPC() then
-						bomb[self.Owner]:TakeDamage(self.__killerqueen, self.Owner, self) 
-					else
-						timer.Simple(0.01, function()
-							if bomb[self.Owner]:IsValid() then
-								bomb[self.Owner]:Remove()
+				timer.Simple(KQ_delay, function() 
+					if target_dissolve then 
+						target:TakeDamage(self.__killerqueen, self.Owner, self) 
+					else 
+						timer.Simple(0.01, function() 
+							if target:IsValid() then 
+								target:Remove() 
 							end
-							bomb[self.Owner] = nil
 						end)
 					end
+
 					explode:Fire("Explode", 0, 0) 
 				end)
 			end
