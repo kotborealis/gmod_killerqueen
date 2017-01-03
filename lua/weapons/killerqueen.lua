@@ -13,6 +13,16 @@ swep_kq_explosion_radius = CreateConVar("swep_kq_explosion_radius", 10, bit.bor(
 swep_kq_delay = CreateConVar("swep_kq_delay", 0.75, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Delay between trigger (*click* sound) and explosion")
 
+swep_kq_target_owner = CreateConVar("swep_kq_target_owner", 0, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Enable bomb to detonate it's owner")
+
+swep_kq_sound_deploy = CreateConVar("swep_kq_sound_deploy", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Enable `Killer Queen` sound on deploy")
+swep_kq_sound_charge = CreateConVar("swep_kq_sound_charge", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Enable `Ichi no bakudan` sound on charge")
+swep_kq_sound_trigger = CreateConVar("swep_kq_sound_trigger", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Enable *click* sound on trigger")
+
 SWEP.PrintName = "Killer Queen";
 SWEP.Author = "Barreses"
 SWEP.Purpose = "KILLER QUEEN"
@@ -49,6 +59,9 @@ function SWEP:Initialize()
 end
 
 function SWEP:Deploy()
+	if swep_kq_sound_deploy:GetBool() then
+		self.Owner:EmitSound("killer_queen.mp3")
+	end
 	return true
 end
  
@@ -56,7 +69,7 @@ function SWEP:Holster()
 	return true
 end
  
-function SWEP:Think()
+function SWEP:Think() 
 end
 
 function SWEP:PrimaryAttack()
@@ -67,6 +80,9 @@ function SWEP:PrimaryAttack()
 			if distance <= swep_kq_charge_radius:GetInt() then
 				if SERVER then self.Owner:ChatPrint("Killer Queen: Primary Bomb") end
 				self.bomb = entity
+				if swep_kq_sound_charge:GetBool() then
+					self.Owner:EmitSound("primary_bomb.mp3")
+				end
 			end
 		end
 	else
@@ -74,8 +90,10 @@ function SWEP:PrimaryAttack()
 			self.bomb = nil
 		else
 			if SERVER then 
-				self.Owner:ChatPrint("*click*")
-				self.Owner:EmitSound("click.mp3")
+				if SERVER then self.Owner:ChatPrint("*click*") end
+				if swep_kq_sound_trigger:GetBool() then
+					self.Owner:EmitSound("click.mp3")
+				end
 
 				local target = self.bomb;
 				local target_dissolve = self.bomb:IsNPC() or self.bomb:IsPlayer();
@@ -91,6 +109,11 @@ function SWEP:PrimaryAttack()
 					if not target_dissolve then
 						for key, entity in pairs(ents.FindInSphere(target:GetPos(), swep_kq_trigger_radius:GetInt())) do
 							local _ = entity:IsNPC() or entity:IsPlayer()
+
+							if not swep_kq_target_owner:GetBool() then
+								_ = _ and self.Owner != entity
+							end
+
 							if _ and entity:IsValid() and entity:Health() > 0 then
 								pos = entity:GetPos()
 								target = entity

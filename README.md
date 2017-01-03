@@ -13,6 +13,10 @@ Convars:
 * swep_kq_trigger_radius - Radius in which charged object will trigger player/npc detonation (Default: 100)
 * swep_kq_explosion_radius - Explosion radius (Default: 10)
 * swep_kq_delay - Delay between trigger (*click* sound) and explosion (Default: 0.75)
+* swep_kq_target_owner - Enable bomb to detonate it's owner (Default: 0)
+* swep_kq_sound_deploy - Enable `Killer Queen` sound on deploy (Default: 1)
+* swep_kq_sound_charge - Enable `Ichi no bakudan` sound on charge (Default: 1)
+* swep_kq_sound_trigger - Enable *click* sound on trigger (Default: 1)
 
 TODO:
 * Sheer Heart Attack 
