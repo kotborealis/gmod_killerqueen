@@ -83,7 +83,7 @@ function SWEP:PrimaryAttack()
 				if not target_dissolve then
 					for key, entity in pairs(ents.FindInSphere(pos, KQ_trigger_radius)) do
 						local _ = entity:IsNPC() or entity:IsPlayer()
-						if _ then
+						if _ and entity:IsValid() then
 							pos = entity:GetPos()
 							target = entity
 							target_dissolve = true
