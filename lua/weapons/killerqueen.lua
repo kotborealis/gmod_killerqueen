@@ -4,10 +4,14 @@ print "======================"
 print "[lc] Killer Queen SWEP"
 print "======================"
 
-KQ_set_radius = 200
-KQ_trigger_radius = 100
-KQ_explosion_radius = "10"
-KQ_delay = 0.75
+swep_kq_charge_radius = CreateConVar("swep_kq_charge_radius", 200, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+                                                "Radius in which you can charge entity as bomb")
+swep_kq_trigger_radius = CreateConVar("swep_kq_trigger_radius", 100, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+                                                "Radius in which charged object will trigger player/npc detonation")
+swep_kq_explosion_radius = CreateConVar("swep_kq_explosion_radius", 10, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Explosion radius")
+swep_kq_delay = CreateConVar("swep_kq_delay", 0.75, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Delay between trigger (*click* sound) and explosion")
 
 SWEP.PrintName = "Killer Queen";
 SWEP.Author = "Barreses"
@@ -15,7 +19,7 @@ SWEP.Purpose = "KILLER QUEEN"
 SWEP.Category = "lc"
 
 SWEP.Slot = 2;
-SWEP.SlotPos = 4;
+SWEP.SlotPos = 4; 
 SWEP.DrawAmmo = false;
 SWEP.DrawCrosshair = true;
 SWEP.Weight = 5;
@@ -39,10 +43,9 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.Delay = 10
 
-bomb = {};
-
 function SWEP:Initialize()
 	self.__killerqueen = 57005
+	self.bomb = nil
 end
 
 function SWEP:Deploy()
@@ -57,58 +60,58 @@ function SWEP:Think()
 end
 
 function SWEP:PrimaryAttack()
-	if !bomb[self.Owner] then
+	if !self.bomb then
 		local entity = self.Owner:GetEyeTrace().Entity
 		if entity and entity:IsValid() then
 			local distance = self.Owner:GetPos():Distance(entity:GetPos())
-			if distance <= KQ_set_radius then
+			if distance <= swep_kq_charge_radius:GetInt() then
 				if SERVER then self.Owner:ChatPrint("Killer Queen: Primary Bomb") end
-				bomb[self.Owner] = entity
+				self.bomb = entity
 			end
 		end
 	else
-		if !bomb[self.Owner]:IsValid() then
-			bomb[self.Owner] = nil
+		if !self.bomb:IsValid() then
+			self.bomb = nil
 		else
 			if SERVER then 
 				self.Owner:ChatPrint("*click*")
 				self.Owner:EmitSound("click.mp3")
 
-				local pos = bomb[self.Owner]:GetPos()
-				local target = bomb[self.Owner];
-				local target_dissolve = bomb[self.Owner]:IsNPC() or bomb[self.Owner]:IsPlayer();
+				local target = self.bomb;
+				local target_dissolve = self.bomb:IsNPC() or self.bomb:IsPlayer();
 
-				bomb[self.Owner] = nil;
+				self.bomb = nil;
 
-				if not target_dissolve then
-					for key, entity in pairs(ents.FindInSphere(pos, KQ_trigger_radius)) do
-						local _ = entity:IsNPC() or entity:IsPlayer()
-						if _ and entity:IsValid() and entity:Health() > 0 then
-							pos = entity:GetPos()
-							target = entity
-							target_dissolve = true
-							break
-						end
-					end
-				end
 
 				local explode = ents.Create("env_explosion")
-				explode:SetPos(pos)
 				explode:SetOwner(self.Owner)
-				explode:Spawn()
-				explode:SetKeyValue("iMagnitude", KQ_explosion_radius)
+				explode:SetKeyValue("iMagnitude", swep_kq_explosion_radius:GetInt())
 
-				timer.Simple(KQ_delay, function() 
+				timer.Simple(swep_kq_delay:GetFloat(), function() 
+					if not target_dissolve then
+						for key, entity in pairs(ents.FindInSphere(target:GetPos(), swep_kq_trigger_radius:GetInt())) do
+							local _ = entity:IsNPC() or entity:IsPlayer()
+							if _ and entity:IsValid() and entity:Health() > 0 then
+								pos = entity:GetPos()
+								target = entity
+								target_dissolve = true
+								break
+							end
+						end
+					end
+
 					if target_dissolve then 
 						target:TakeDamage(self.__killerqueen, self.Owner, self) 
 					else 
-						timer.Simple(0.01, function() 
+						timer.Simple(0.05, function() 
 							if target:IsValid() then 
 								target:Remove() 
 							end
 						end)
 					end
 
+					explode:Spawn()
+					explode:SetPos(target:GetPos())
 					explode:Fire("Explode", 0, 0) 
 				end)
 			end
