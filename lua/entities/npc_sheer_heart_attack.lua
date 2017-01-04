@@ -1,8 +1,8 @@
 AddCSLuaFile()
 
-print "-----------------------"
+print "======================="
 print "[lc] Sheer Heart Attack"
-print "-----------------------"
+print "======================="
 
 local npc_sha_detonate_radius = CreateConVar("npc_sha_detonate_radius", 50, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "When there's enemy within this radius around SHA, bomb will be triggered")

@@ -18,6 +18,8 @@ Convars:
 * swep_kq_sound_charge - Enable `Ichi no bakudan` sound on charge (Default: 1)
 * swep_kq_sound_trigger - Enable *click* sound on trigger (Default: 1)
 
+
+
 TODO:
 * Sheer Heart Attack 
 * Bites the Dust
