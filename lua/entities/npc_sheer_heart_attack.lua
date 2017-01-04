@@ -5,7 +5,7 @@ print "[lc] Sheer Heart Attack"
 print "======================="
 
 local npc_sha_detonate_radius = CreateConVar("npc_sha_detonate_radius", 50, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
-                                                "When there's enemy within this radius around SHA, bomb will be triggered")
+                                                "When there's target within this radius around SHA, bomb will be triggered")
 local npc_sha_explosion_radius = CreateConVar("npc_sha_explosion_radius", 10, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "SHA's explosion radius")
 local npc_sha_move_speed = CreateConVar("npc_sha_move_speed", 500, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),

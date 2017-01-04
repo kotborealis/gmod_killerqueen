@@ -1,4 +1,4 @@
-# [jjba] Killer Queen SWEP
+# [jjba] Killer Queen + Sheer Heart Attack SWEP
 * [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=832937251)
 * [Github](https://github.com/kotborealis/gmod_killerqueen)
 
@@ -18,8 +18,18 @@ Convars:
 * swep_kq_sound_charge - Enable `Ichi no bakudan` sound on charge (Default: 1)
 * swep_kq_sound_trigger - Enable *click* sound on trigger (Default: 1)
 
+Killer Queen's secondary bomb, Sheer Heart Attack!
+Right click to summon Sheer Heart Attack. It will chase and detonate players and burning objects (it uses heat as it's target).
+Right click once more to withdraw Sheer Heart Attack.
 
+Convars:
+* npc_sha_detonate_radius - When there's target within this radius around SHA, bomb will be triggered (Default: 50)
+* npc_sha_explosion_radius - SHA's explosion radius (Default: 10)
+* npc_sha_move_speed  - SHA's move speed (Default: 500)
+* npc_sha_target_players - Target players? (Default: 1)
+* npc_sha_render_size - Sprite size (Default: 64)
+* npc_sha_sound_spawn - Enable `Sheer Heart Attack` sound on NPC spawn (Default: 1)
+* npc_sha_sound_kotchio_miro  - Enable `Kotchio Miro` sound (Default: 1)
 
 TODO:
-* Sheer Heart Attack 
 * Bites the Dust
