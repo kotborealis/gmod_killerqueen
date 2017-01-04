@@ -38,7 +38,7 @@ SWEP.AutoSwitchFrom = false;
 
 SWEP.Spawnable = true
 
-SWEP.ViewModel = ""
+SWEP.ViewModel = "models/weapons/v_hands.mdl"
 SWEP.WorldModel = ""
 
 SWEP.Primary.ClipSize = -1
@@ -57,6 +57,7 @@ bomb = {}
 sha = {}
 
 function SWEP:Initialize()
+	self:SetWeaponHoldType("magic")
 	self.__killerqueen = 57005
 	bomb[self.Owner] = nil
 end
