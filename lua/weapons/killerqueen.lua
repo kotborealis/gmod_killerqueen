@@ -16,6 +16,9 @@ local swep_kq_delay = CreateConVar("swep_kq_delay", 0.75, bit.bor(FCVAR_GAMEDLL,
 local swep_kq_target_owner = CreateConVar("swep_kq_target_owner", 0, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable bomb to detonate it's owner")
 
+local swep_kq_sha_withdraw_radius = CreateConVar("swep_kq_sha_withdraw_radius", 500, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Radius in which you can withdraw Sheer Heart Attack")
+
 local swep_kq_sound_deploy = CreateConVar("swep_kq_sound_deploy", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable `Killer Queen` sound on deploy")
 local swep_kq_sound_charge = CreateConVar("swep_kq_sound_charge", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
@@ -53,9 +56,12 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.Delay = 10
 
+bomb = {}
+sha = {}
+
 function SWEP:Initialize()
 	self.__killerqueen = 57005
-	self.bomb = nil
+	bomb[self.Owner] = nil
 end
 
 function SWEP:Deploy()
@@ -73,21 +79,21 @@ function SWEP:Think()
 end
 
 function SWEP:PrimaryAttack()
-	if !self.bomb then
+	if !bomb[self.Owner] then
 		local entity = self.Owner:GetEyeTrace().Entity
 		if entity and entity:IsValid() then
 			local distance = self.Owner:GetPos():Distance(entity:GetPos())
 			if distance <= swep_kq_charge_radius:GetInt() then
 				if SERVER then self.Owner:ChatPrint("Killer Queen: Primary Bomb") end
-				self.bomb = entity
+				bomb[self.Owner] = entity
 				if swep_kq_sound_charge:GetBool() then
 					self.Owner:EmitSound("primary_bomb.mp3")
 				end
 			end
 		end
 	else
-		if !self.bomb:IsValid() then
-			self.bomb = nil
+		if !bomb[self.Owner]:IsValid() then
+			bomb[self.Owner] = nil
 		else
 			if SERVER then 
 				if SERVER then self.Owner:ChatPrint("*click*") end
@@ -95,10 +101,10 @@ function SWEP:PrimaryAttack()
 					self.Owner:EmitSound("click.mp3")
 				end
 
-				local target = self.bomb;
-				local target_dissolve = self.bomb:IsNPC() or self.bomb:IsPlayer();
+				local target = bomb[self.Owner];
+				local target_dissolve = bomb[self.Owner]:IsNPC() or bomb[self.Owner]:IsPlayer();
 
-				self.bomb = nil;
+				bomb[self.Owner] = nil;
 
 
 				local explode = ents.Create("env_explosion")
@@ -140,6 +146,32 @@ function SWEP:PrimaryAttack()
 			end
 		end
 	end
+end
+
+function SWEP:SecondaryAttack()
+	if sha[self.Owner] then 
+		local _ents = ents.FindInSphere(self:GetPos(), swep_kq_sha_withdraw_radius:GetInt())
+		for key, entity in pairs(ents.GetAll()) do
+			if entity == sha[self.Owner] then
+				sha[self.Owner] = nil
+				entity:Remove()
+				return
+			end
+		end
+
+		sha[self.Owner] = nil
+	end
+
+	local trace = util.TraceLine({
+		start = self.Owner:EyePos(),
+		endpos = self.Owner:EyePos() + self.Owner:EyeAngles():Forward() * 100000,
+		filter = {self.Owner}
+	})
+
+	sha[self.Owner] = ents.Create("npc_sheer_heart_attack")
+	sha[self.Owner]:SetPos(trace.HitPos)
+	sha[self.Owner]:Spawn()
+	sha[self.Owner]:SetOwner(self.Owner)
 end
 
 if SERVER then
