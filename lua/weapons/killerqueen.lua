@@ -16,9 +16,6 @@ local swep_kq_delay = CreateConVar("swep_kq_delay", 0.75, bit.bor(FCVAR_GAMEDLL,
 local swep_kq_target_owner = CreateConVar("swep_kq_target_owner", 0, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable bomb to detonate it's owner")
 
-local swep_kq_sha_withdraw_radius = CreateConVar("swep_kq_sha_withdraw_radius", 500, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
-												"Radius in which you can withdraw Sheer Heart Attack")
-
 local swep_kq_sound_deploy = CreateConVar("swep_kq_sound_deploy", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable `Killer Queen` sound on deploy")
 local swep_kq_sound_charge = CreateConVar("swep_kq_sound_charge", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
@@ -149,8 +146,7 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-	if sha[self.Owner] then 
-		local _ents = ents.FindInSphere(self:GetPos(), swep_kq_sha_withdraw_radius:GetInt())
+	if sha[self.Owner] then
 		for key, entity in pairs(ents.GetAll()) do
 			if entity == sha[self.Owner] then
 				sha[self.Owner] = nil
