@@ -96,56 +96,52 @@ function SWEP:PrimaryAttack()
 	else
 		if !bomb[self.Owner]:IsValid() then
 			bomb[self.Owner] = nil
-		else
-			if SERVER then 
-				if SERVER then self.Owner:ChatPrint("*click*") end
-				if swep_kq_sound_trigger:GetBool() then
-					self.Owner:EmitSound("click.mp3")
+		elseif SERVER then 
+			self.Owner:ChatPrint("*click*")
+			if swep_kq_sound_trigger:GetBool() then
+				self.Owner:EmitSound("click.mp3")
+			end
+
+			local target = bomb[self.Owner];
+			local target_dissolve = bomb[self.Owner]:IsNPC() or bomb[self.Owner]:IsPlayer();
+
+			bomb[self.Owner] = nil;
+
+			timer.Simple(swep_kq_delay:GetFloat(), function() 
+				if not target_dissolve then
+					for key, entity in pairs(ents.FindInSphere(target:GetPos(), swep_kq_trigger_radius:GetInt())) do
+						local _ = entity:IsNPC() or entity:IsPlayer()
+
+						if not swep_kq_target_owner:GetBool() then
+							_ = _ and self.Owner != entity
+						end
+
+						if _ and entity:IsValid() and entity:Health() > 0 then
+							pos = entity:GetPos()
+							target = entity
+							target_dissolve = true
+							break
+						end
+					end
 				end
-
-				local target = bomb[self.Owner];
-				local target_dissolve = bomb[self.Owner]:IsNPC() or bomb[self.Owner]:IsPlayer();
-
-				bomb[self.Owner] = nil;
-
 
 				local explode = ents.Create("env_explosion")
 				explode:SetOwner(self.Owner)
 				explode:SetKeyValue("iMagnitude", swep_kq_explosion_radius:GetInt())
-
-				timer.Simple(swep_kq_delay:GetFloat(), function() 
-					if not target_dissolve then
-						for key, entity in pairs(ents.FindInSphere(target:GetPos(), swep_kq_trigger_radius:GetInt())) do
-							local _ = entity:IsNPC() or entity:IsPlayer()
-
-							if not swep_kq_target_owner:GetBool() then
-								_ = _ and self.Owner != entity
-							end
-
-							if _ and entity:IsValid() and entity:Health() > 0 then
-								pos = entity:GetPos()
-								target = entity
-								target_dissolve = true
-								break
-							end
+				explode:Spawn()
+				explode:SetPos(target:GetPos())
+				explode:Fire("Explode", 0, 0)
+				
+				if target_dissolve then 
+					target:TakeDamage(self.__killerqueen, self.Owner, self)
+				else 
+					timer.Simple(0.05, function() 
+						if target:IsValid() then 
+							target:Remove() 
 						end
-					end
-
-					explode:Spawn()
-					explode:SetPos(target:GetPos())
-					explode:Fire("Explode", 0, 0)
-					
-					if target_dissolve then 
-						target:TakeDamage(self.__killerqueen, self.Owner, self)
-					else 
-						timer.Simple(0.05, function() 
-							if target:IsValid() then 
-								target:Remove() 
-							end
-						end)
-					end
-				end)
-			end
+					end)
+				end
+			end)
 		end
 	end
 end
@@ -174,10 +170,12 @@ function SWEP:SecondaryAttack()
 		filter = {self.Owner}
 	})
 
-	sha[self.Owner] = ents.Create("npc_sheer_heart_attack")
-	sha[self.Owner]:SetPos(trace.HitPos)
-	sha[self.Owner]:Spawn()
-	sha[self.Owner]:SetOwner(self.Owner)
+	if SERVER then
+		sha[self.Owner] = ents.Create("npc_sheer_heart_attack")
+		sha[self.Owner]:SetPos(trace.HitPos)
+		sha[self.Owner]:Spawn()
+		sha[self.Owner]:SetOwner(self.Owner)
+	end
 end
 
 if SERVER then

@@ -127,7 +127,7 @@ end
 
 function ENT:explodeTarget(target)
 	local pos = target:GetPos()
-	local target_dissolve = target:IsNPC() or target:IsPlayer();
+	local target_dissolve = target:IsNPC() or target:IsPlayer()
 
 	local explode = ents.Create("env_explosion")
 	explode:SetPos(pos)
