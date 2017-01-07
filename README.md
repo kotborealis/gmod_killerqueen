@@ -19,7 +19,8 @@ Convars:
 * swep_kq_sound_charge - Enable `Ichi no bakudan` sound on charge (Default: 1)
 * swep_kq_sound_trigger - Enable *click* sound on trigger (Default: 1)
 
-~~! (SHA now restricted to admins only by default, to remove this restriction, set swep_kq_sha_admin_only to 0) !~~ 
+!!! SHA now restricted to admins only by default, to remove this restriction, set swep_kq_sha_admin_only to 0 !!!
+
 Killer Queen's secondary bomb, Sheer Heart Attack!
 Right click to summon Sheer Heart Attack. It will chase and detonate players and burning objects (it uses heat as it's target).
 Right click once more to withdraw Sheer Heart Attack.
