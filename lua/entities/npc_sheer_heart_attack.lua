@@ -134,8 +134,8 @@ function ENT:explodeTarget(target)
 	explode:SetOwner(self)
 	explode:Spawn()
 	explode:SetKeyValue("iMagnitude", npc_sha_explosion_radius:GetInt())
+	explode:Fire("Explode", 0, 0)
 
-	
 	if target_dissolve then 
 		target:TakeDamage(self.__sheerheartattack, self, self) 
 	else 
@@ -145,8 +145,6 @@ function ENT:explodeTarget(target)
 			end
 		end)
 	end
-
-	explode:Fire("Explode", 0, 0)
 end
 
 function ENT:HandleStuck()

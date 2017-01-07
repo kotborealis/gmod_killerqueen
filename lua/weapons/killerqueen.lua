@@ -16,6 +16,9 @@ local swep_kq_delay = CreateConVar("swep_kq_delay", 0.75, bit.bor(FCVAR_GAMEDLL,
 local swep_kq_target_owner = CreateConVar("swep_kq_target_owner", 0, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable bomb to detonate it's owner")
 
+local swep_kq_sha_admin_only = CreateConVar("swep_kq_sha_admin_only", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+												"Restrict SHA to only admins")
+
 local swep_kq_sound_deploy = CreateConVar("swep_kq_sound_deploy", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable `Killer Queen` sound on deploy")
 local swep_kq_sound_charge = CreateConVar("swep_kq_sound_charge", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
@@ -55,6 +58,7 @@ SWEP.Delay = 10
 
 bomb = {}
 sha = {}
+btd = {}
 
 function SWEP:Initialize()
 	self:SetWeaponHoldType("magic")
@@ -127,8 +131,12 @@ function SWEP:PrimaryAttack()
 						end
 					end
 
+					explode:Spawn()
+					explode:SetPos(target:GetPos())
+					explode:Fire("Explode", 0, 0)
+					
 					if target_dissolve then 
-						target:TakeDamage(self.__killerqueen, self.Owner, self) 
+						target:TakeDamage(self.__killerqueen, self.Owner, self)
 					else 
 						timer.Simple(0.05, function() 
 							if target:IsValid() then 
@@ -136,10 +144,6 @@ function SWEP:PrimaryAttack()
 							end
 						end)
 					end
-
-					explode:Spawn()
-					explode:SetPos(target:GetPos())
-					explode:Fire("Explode", 0, 0) 
 				end)
 			end
 		end
@@ -147,6 +151,11 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
+	if not self.Owner:IsAdmin() and swep_kq_sha_admin_only:GetBool() then
+		if SERVER then self.Owner:ChatPrint("Only admins can use Sheer Heart Attack") end
+		return
+	end
+
 	if sha[self.Owner] then
 		for key, entity in pairs(ents.GetAll()) do
 			if entity == sha[self.Owner] then
