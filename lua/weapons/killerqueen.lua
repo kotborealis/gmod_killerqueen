@@ -17,7 +17,7 @@ local swep_kq_target_owner = CreateConVar("swep_kq_target_owner", 0, bit.bor(FCV
 												"Enable bomb to detonate it's owner")
 
 local swep_kq_sha_admin_only = CreateConVar("swep_kq_sha_admin_only", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
-												"Restrict SHA to only admins")
+												"Restrict SHA to admins only")
 
 local swep_kq_sound_deploy = CreateConVar("swep_kq_sound_deploy", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
 												"Enable `Killer Queen` sound on deploy")
