@@ -14,10 +14,12 @@ Convars:
 * swep_kq_explosion_radius - Explosion radius (Default: 10)
 * swep_kq_delay - Delay between trigger (*click* sound) and explosion (Default: 0.75)
 * swep_kq_target_owner - Enable bomb to detonate it's owner (Default: 0)
+* swep_kq_sha_admin_only - Restrict SHA to admins only (Default: 1)
 * swep_kq_sound_deploy - Enable `Killer Queen` sound on deploy (Default: 1)
 * swep_kq_sound_charge - Enable `Ichi no bakudan` sound on charge (Default: 1)
 * swep_kq_sound_trigger - Enable *click* sound on trigger (Default: 1)
 
+(CHANGE: SHA now restricted to admins only by default, to remove this restriction, set swep_kq_sha_admin_only to 0)
 Killer Queen's secondary bomb, Sheer Heart Attack!
 Right click to summon Sheer Heart Attack. It will chase and detonate players and burning objects (it uses heat as it's target).
 Right click once more to withdraw Sheer Heart Attack.
