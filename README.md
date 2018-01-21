@@ -1,6 +1,7 @@
 # [jjba] Killer Queen + Sheer Heart Attack SWEP
 * [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=832937251)
 * [Github](https://github.com/kotborealis/gmod_killerqueen)
+* [Sheer Heart Attack model](http://steamcommunity.com/sharedfiles/filedetails/?id=1273958451)
 
 Killer Queen's primary bomb! 
 Left click on any entity while near it to charge it as a bomb. 
@@ -24,6 +25,8 @@ Convars:
 Killer Queen's secondary bomb, Sheer Heart Attack!
 Right click to summon Sheer Heart Attack. It will chase and detonate players and burning objects (it uses heat as it's target).
 Right click once more to withdraw Sheer Heart Attack.
+
+[2018/01/21] Now SHA has actual [model](http://steamcommunity.com/sharedfiles/filedetails/?id=1273958451)!
 
 Convars:
 * npc_sha_detonate_radius — When there's target within this radius around SHA, bomb will be triggered (Default: 50)
