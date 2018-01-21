@@ -3,13 +3,13 @@
 * [Github](https://github.com/kotborealis/gmod_killerqueen)
 * [Sheer Heart Attack model](http://steamcommunity.com/sharedfiles/filedetails/?id=1273958451)
 
-Killer Queen's primary bomb! 
+## Killer Queen's primary bomb! 
 Left click on any entity while near it to charge it as a bomb. 
 Then, left click anywhere to activate the bomb. 
 If there's any NPCs or Players within a small radius around the bomb, they will be affected by bomb.
 If there's no NPCs or Players around, bomb will affect only charged entity.
 
-Convars:
+### Convars:
 * swep_kq_charge_radius — Radius in which you can charge entity as bomb (Default: 200)
 * swep_kq_trigger_radius — Radius in which charged object will trigger player/npc detonation (Default: 100)
 * swep_kq_explosion_radius — Explosion radius (Default: 10)
@@ -22,13 +22,13 @@ Convars:
 
 !!! SHA now restricted to admins only by default, to remove this restriction, set swep_kq_sha_admin_only to 0 !!!
 
-Killer Queen's secondary bomb, Sheer Heart Attack!
+## Killer Queen's secondary bomb, Sheer Heart Attack!
 Right click to summon Sheer Heart Attack. It will chase and detonate players and burning objects (it uses heat as it's target).
 Right click once more to withdraw Sheer Heart Attack.
 
 [2018/01/21] Now SHA has actual [model](http://steamcommunity.com/sharedfiles/filedetails/?id=1273958451)!
 
-Convars:
+### Convars:
 * npc_sha_detonate_radius — When there's target within this radius around SHA, bomb will be triggered (Default: 50)
 * npc_sha_explosion_radius — SHA's explosion radius (Default: 10)
 * npc_sha_move_speed  — SHA's move speed (Default: 500)
@@ -37,5 +37,5 @@ Convars:
 * npc_sha_sound_spawn — Enable `Sheer Heart Attack` sound on NPC spawn (Default: 1)
 * npc_sha_sound_kotchio_miro  — Enable `Kotchio Miro` sound (Default: 1)
 
-TODO:
+## TODO:
 * Bites the Dust
