@@ -9,6 +9,7 @@
 		"*.bat",
 		"*.md",
 		".git/*",
-		".gitignore"
+		".gitignore",
+		"LICENSE"
 	]
 }
