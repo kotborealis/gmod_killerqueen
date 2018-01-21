@@ -13,8 +13,8 @@ local npc_sha_move_speed = CreateConVar("npc_sha_move_speed", 500, bit.bor(FCVAR
 local npc_sha_target_players = CreateConVar("npc_sha_target_players", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "Target players?")
 
-local npc_sha_render_size = CreateConVar("npc_sha_render_size", 64, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
-                                                "Sprite size")
+local npc_sha_model_scale = CreateConVar("npc_sha_model_scale", 2, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+                                                "SHA's model scale")
 
 local npc_sha_sound_spawn = CreateConVar("npc_sha_sound_spawn", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "Enable `Sheer Heart Attack` sound on NPC spawn")
@@ -25,8 +25,6 @@ local npc_sha_sound_kotchio_miro = CreateConVar("npc_sha_sound_kotchio_miro", 1,
 ENT.Base 			= "base_nextbot"
 ENT.Spawnable		= true
 
-local shaMaterial = Material("npc_sha.png", "smooth mips")
-
 function IsValidShearHeartAttackTarget(entity)
 	return entity and entity:IsValid() and (entity:IsOnFire() or ((entity:IsPlayer() or entity:IsNPC()) and entity:Health() > 0))
 end
@@ -34,7 +32,9 @@ end
 function ENT:Initialize()
 	self.__sheerheartattack = 57005
 
-	self:SetModel("models/props_junk/watermelon01.mdl")
+	self:SetModel("models/sha.mdl")
+	self:SetMaterial("materials/model/sha/ntxr000.vmt")
+	self:SetModelScale(2)
 
 	if npc_sha_sound_spawn:GetBool() then
 		self:EmitSound("sha.mp3")
@@ -44,12 +44,6 @@ function ENT:Initialize()
     if phys:IsValid() then
         phys:Wake()
     end
-end
-
-function ENT:Draw()
-	local _ = npc_sha_render_size:GetInt()
-	render.SetMaterial(shaMaterial)
-	render.DrawSprite(self:GetPos() + Vector(0, 0, _/2), _, _)
 end
 
 function ENT:SetEnemy( ent )
