@@ -31,7 +31,7 @@ function ENT:Initialize()
 
 	self:SetModel("models/sha.mdl")
 	self:SetMaterial("materials/model/sha/ntxr000.vmt")
-	self:SetModelScale(2)
+	self:SetModelScale(1)
 
 	if npc_sha_sound_spawn:GetBool() then
 		self:EmitSound("sha.mp3")
