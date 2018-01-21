@@ -13,6 +13,9 @@ local npc_sha_move_speed = CreateConVar("npc_sha_move_speed", 500, bit.bor(FCVAR
 local npc_sha_target_players = CreateConVar("npc_sha_target_players", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "Target players?")
 
+local npc_sha_skin = CreateConVar("npc_sha_skin", 0, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
+                                                "Model skin")
+
 local npc_sha_sound_spawn = CreateConVar("npc_sha_sound_spawn", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
                                                 "Enable `Sheer Heart Attack` sound on NPC spawn")
 local npc_sha_sound_kotchio_miro = CreateConVar("npc_sha_sound_kotchio_miro", 1, bit.bor(FCVAR_GAMEDLL, FCVAR_DEMO, FCVAR_SERVER_CAN_EXECUTE),
@@ -30,8 +33,8 @@ function ENT:Initialize()
 	self.__sheerheartattack = 57005
 
 	self:SetModel("models/sha.mdl")
-	self:SetMaterial("materials/model/sha/ntxr000.vmt")
 	self:SetModelScale(1)
+	self:SetSkin(math.Clamp(npc_sha_skin:GetInt(), 0, 3))
 
 	if npc_sha_sound_spawn:GetBool() then
 		self:EmitSound("sha.mp3")

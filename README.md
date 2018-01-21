@@ -30,6 +30,7 @@ Convars:
 * npc_sha_explosion_radius — SHA's explosion radius (Default: 10)
 * npc_sha_move_speed  — SHA's move speed (Default: 500)
 * npc_sha_target_players — Target players? (Default: 1)
+* npc_sha_skin — Model Skin (Default: 0, Min: 0, Max: 3)
 * npc_sha_sound_spawn — Enable `Sheer Heart Attack` sound on NPC spawn (Default: 1)
 * npc_sha_sound_kotchio_miro  — Enable `Kotchio Miro` sound (Default: 1)
 
